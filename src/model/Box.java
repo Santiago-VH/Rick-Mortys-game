@@ -6,10 +6,13 @@ public class Box {
 	private Box portal;
 	private int ID;
 	private boolean seed;
+	private boolean isPortal;
 	
 	
-	public Box(int ID) {
+	public Box(int ID, boolean seed) {
 	this.ID=ID;
+	this.seed=seed;
+	isPortal=false;
 	}
 	
 	public Box getNext() {
@@ -50,6 +53,14 @@ public class Box {
 
 	public void setID(int iD) {
 		ID = iD;
+	}
+
+	public boolean isPortal() {
+		return isPortal;
+	}
+
+	public void setPortal(boolean isPortal) {
+		this.isPortal = isPortal;
 	}
 	
 	

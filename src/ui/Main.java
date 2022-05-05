@@ -16,11 +16,6 @@ public class Main {
 		boolean validation=true;
 		
 		do {
-		
-		
-		
-		
-		
 		System.out.println("Welcome to Rick & Morty's adventure! Please digit the number of columns\n");
 		int columns=Integer.parseInt(br.readLine());
 		
@@ -43,18 +38,21 @@ public class Main {
 			if(seedsAmount<0) {
 				System.out.println("Don't digit negative numbers, restart the game.\n");
 				validation=false;
-			} 
-					else if(seedsAmount>(columns*rows)) {
-						System.out.println("Exceeded limit of seeds relative to the board's size, restart the game.\n");
-					}
+			} else if(seedsAmount>(columns*rows)) {
+				System.out.println("Exceeded limit of seeds relative to the board's size, restart the game.\n");
+				validation=false;
+					} else if(seedsAmount==0) {
+						System.out.println("Please select a number of seeds different than 0, restart the game. \n");
+						validation=false;
+					  		}
 		
 		
-		System.out.println("Please digit the amount of links you want in the game (It can't be higher than half of "
+		System.out.println("Please digit the amount of portals you want in the game (It can't be higher than half of "
 				+ "the board's complete size\n)");
 		int portalsAmount=Integer.parseInt(br.readLine());
 		
 			if(portalsAmount>(0.5*(columns * rows))) {
-				System.out.println("As it was said before, links can't be higher than half of the board's complete size, restart the game\n");
+				System.out.println("As said before, the portals can't be larger than half of the board's complete size, restart the game\n");
 				validation=false;
 			}
 		
