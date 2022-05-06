@@ -6,8 +6,11 @@ public class Board {
 	private int seedsAmount;
 	private int portalsAmount;
 	
-	public Board(int rows, int columns, int seeds, int links) {
-		
+	public Board(int rows, int columns, int seedsAmount, int portalsAmount) {
+		this.rows=rows;
+		this.columns=columns;
+		this.seedsAmount=seedsAmount;
+		this.portalsAmount=portalsAmount;
 	}
 
 	public int getRows() {

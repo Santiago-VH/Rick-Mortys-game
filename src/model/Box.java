@@ -7,12 +7,16 @@ public class Box {
 	private int ID;
 	private boolean seed;
 	private boolean isPortal;
+	private boolean isMorty;
+	private boolean isRick;
 	
 	
-	public Box(int ID, boolean seed) {
+	public Box(int ID, boolean seed, boolean isPortal, boolean isMorty, boolean isRick) {
 	this.ID=ID;
-	this.seed=seed;
+	seed=false;
 	isPortal=false;
+	isMorty=false;
+	isRick=false;
 	}
 	
 	public Box getNext() {
@@ -62,6 +66,8 @@ public class Box {
 	public void setPortal(boolean isPortal) {
 		this.isPortal = isPortal;
 	}
+	
+	
 	
 	
 }

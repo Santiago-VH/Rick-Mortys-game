@@ -32,13 +32,14 @@ public class Main {
 				validation=false;
 			}
 		
+			int size=columns*rows;
 		System.out.println("Please digit the amount of seeds you want on the game\n");
 		int seedsAmount=Integer.parseInt(br.readLine());
 		
 			if(seedsAmount<0) {
 				System.out.println("Don't digit negative numbers, restart the game.\n");
 				validation=false;
-			} else if(seedsAmount>(columns*rows)) {
+			} else if(seedsAmount>size) {
 				System.out.println("Exceeded limit of seeds relative to the board's size, restart the game.\n");
 				validation=false;
 					} else if(seedsAmount==0) {
@@ -50,13 +51,12 @@ public class Main {
 		System.out.println("Please digit the amount of portals you want in the game (It can't be higher than half of "
 				+ "the board's complete size\n)");
 		int portalsAmount=Integer.parseInt(br.readLine());
-		
-			if(portalsAmount>(0.5*(columns * rows))) {
+			if(portalsAmount>(0.5*size)) {
 				System.out.println("As said before, the portals can't be larger than half of the board's complete size, restart the game\n");
 				validation=false;
 			}
 		
-		manager.createBoxes(columns, rows, seedsAmount, portalsAmount);
+		manager.createBoxes(size, seedsAmount, portalsAmount);
 		}while(validation==true);
 			
 			
