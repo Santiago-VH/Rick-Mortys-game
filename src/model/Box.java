@@ -55,7 +55,7 @@ public class Box {
 		ID = iD;
 	}
 
-	public boolean isPortal() {
+	public boolean IsPortal() {
 		return isPortal;
 	}
 

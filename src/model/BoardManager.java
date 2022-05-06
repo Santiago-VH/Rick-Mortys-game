@@ -5,20 +5,15 @@ public class BoardManager {
 	
 	
 	public BoardManager() {
-		this.firstLink=new Box(1, false, false);
+		this.firstLink=new Box(1, false);
 	}
 	
 	public void createBoxes(int rows, int columns, int seeds, int portals) {
-	
-		boolean hasPortals=true;
-		if(portals==0) {
-			hasPortals=false;
-		}
 		
 		Box current1 = firstLink;
 		for(int i=1;i<(rows*columns);i++) {
 			int ID=i+1;
-			Box newLink = new Box(ID, false, false); 
+			Box newLink = new Box(ID, false); 
 			newLink.setPrevious(current1);
 			current1.setNext(newLink);
 			current1=current1.getNext();
@@ -26,9 +21,11 @@ public class BoardManager {
 		current1.setNext(firstLink);
 		firstLink.setPrevious(current1);
 		
+		int cont=0;
 		do {
 			createPortal(rows, columns, current1, portals);
-			}while(hasPortals==true&&portals==1);
+			cont++;
+			}while(portals>=cont);
 		
 	}
 	
@@ -39,16 +36,12 @@ public class BoardManager {
 		
 		do {
 			id1 = (int)(Math.random() * (rows*columns) + 1);
-		}while(searchPortal(id1,size)==true);
+		}while(searchPortal(id1,size));
 		
 		do {
 			id2=(int)(Math.random() * (rows*columns) + 1);
-		}while(id1==id2);
-		
-		
-		searchPortal(id2, portalAmount);
-		
-		
+		}while(id1==id2||searchPortal(id2, portalAmount));
+			
 		Box aux1=null;
 		current1=firstLink;
 		boolean stop=false;
@@ -72,17 +65,10 @@ public class BoardManager {
 			}
 			current2.getNext();
 		}
-		aux1.setNext(aux2);
-		aux2.setNext(aux1);
+		aux1.setPortal(aux2);
+		aux2.setPortal(aux1);
 		
 
-	}
-	
-	public void createPortals() {
-		for(int i=0;i<cantidad;i++) {
-			createPortal();
-			
-		}
 	}
 	
 	public boolean searchPortal(int id1, int size) {
