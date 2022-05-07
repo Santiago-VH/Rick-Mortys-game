@@ -10,7 +10,7 @@ public class BoardManager {
 	
 	public void organizeGame(int size, int portals, int seeds, String morty, String rick) {
 		
-			Board board = new Board(0, 0, 0);
+			Board board = new Board(0, 0, 0, 0);
 			Box box = new Box(0, false, false, false, false);
 			Box current1=firstLink;
 			board.createBoxes(size, seeds, portals, current1);
@@ -32,10 +32,6 @@ public class BoardManager {
 				
 			
 				box.sortPlayers(size, current1, portals);
-	}
-	
-	public void test(int size) {
-		
 	}
 
 	public Box getFirstLink() {

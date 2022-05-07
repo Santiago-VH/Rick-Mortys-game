@@ -4,12 +4,14 @@ public class Board {
 	private int size;
 	private int seedsAmount;
 	private int portalsAmount;
+	private int diceValue;
 	Box box;
 	
-	public Board(int size, int seedsAmount, int portalsAmount) {
+	public Board(int size, int seedsAmount, int portalsAmount, int diceValue) {
 		this.size=size;
 		this.seedsAmount=seedsAmount;
 		this.portalsAmount=portalsAmount;
+		this.diceValue=diceValue;
 		this.box=new Box(0, false, false, false, false);
 	}
 
@@ -35,6 +37,14 @@ public class Board {
 
 	public void setPortalsAmount(int portalsAmount) {
 		this.portalsAmount = portalsAmount;
+	}
+
+	public int getDiceValue() {
+		return diceValue;
+	}
+
+	public void setDiceValue(int diceValue) {
+		this.diceValue = diceValue;
 	}
 
 	public void createBoxes(int size, int seeds, int portals, Box firstLink) {
