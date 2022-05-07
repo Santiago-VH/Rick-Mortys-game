@@ -20,6 +20,7 @@ public class Box {
 	isRick=false;
 	}
 	
+	/////////////////////////////////////GETTERS & SETTERS////////////////////////////////////////
 	public Box getNext() {
 		return next;
 	}
@@ -68,6 +69,23 @@ public class Box {
 		this.hasPortal = hasPortal;
 	}
 	
+	public boolean isMorty() {
+		return isMorty;
+	}
+
+	public void setMorty(boolean isMorty) {
+		this.isMorty = isMorty;
+	}
+
+	public boolean isRick() {
+		return isRick;
+	}
+
+	public void setRick(boolean isRick) {
+		this.isRick = isRick;
+	}
+
+	////////////////////////////////////PORTAL METHODS/////////////////////////////////////////////////////
 	public void createPortal(int size, Box current1, int portalAmount) {
 		
 		int id1;
@@ -90,7 +108,7 @@ public class Box {
 				stop=true;
 				aux1.setHasPortal(true);
 			}
-			current1.getNext();
+			current1=current1.getNext();
 		}
 		
 		stop=false;
@@ -102,7 +120,7 @@ public class Box {
 				aux2=current2;
 				stop=true;
 			}
-			current2.getNext();
+			current2=current2.getNext();
 		}
 		aux1.setPortal(aux2);
 		aux2.setPortal(aux1);
@@ -119,12 +137,13 @@ public class Box {
 					return true;
 				}
 			}
-			current.getNext();
+			current=current.getNext();
 		}
 		return true;
 	}
 	
 	
+//////////////////////////SEED METHODS/////////////////////////////////////////////////////////	
 	public void sortSeeds(int size, Box current, int seeds) {
 		
 		int id;
@@ -139,7 +158,7 @@ public class Box {
 				current.setSeed(true);
 				stop=true;
 			}
-			current.getNext();
+			current=current.getNext();
 		}
 		
 	}
@@ -154,12 +173,14 @@ public class Box {
 					return true;
 				}
 			}
-			current.getNext();
+			current=current.getNext();
 		}
 		return true;
 	}	
 	
 	
+	
+/////////////////////////////////////PLAYER METHODS/////////////////////////////////////////////
 	public void sortPlayers(int size, Box current, int portals) {
 		int mortyPosition;
 		int rickPosition;
@@ -167,13 +188,31 @@ public class Box {
 		do {
 		mortyPosition=(int)(Math.random() * (size) + 1);
 		}while(searchPortal(size, portals, current));
+		
 		do {
 		rickPosition=(int)(Math.random() * (size) + 1);	
 		}while(mortyPosition==rickPosition||searchPortal(size, portals, current));
 		
-		
-		
-		
+		boolean stop=false;
+		current=firstLink;
+		for(int i=0;i<size&&stop==false;i++) {
+			
+			if(current.getID()==mortyPosition) {
+				current.setMorty(true);
+			}else if(current.getID()==rickPosition) {
+				current.setRick(true);
+			}
+			
+			if(current.isMorty()&&current.isRick()==true) {
+				stop=true;
+			}
+			current=current.getNext();
+		}		
+	}
+	
+	public boolean searchPlayer(int mortyPosition, int rickPosition, int size, Box current) {
+		//TODO
+		return true;
 	}
 	
 }

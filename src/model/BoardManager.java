@@ -33,6 +33,19 @@ public class BoardManager {
 			
 				box.sortPlayers(size, current1, portals);
 	}
+	
+	public void test(int size) {
+		
+	}
+
+	public Box getFirstLink() {
+		return firstLink;
+	}
+
+	public void setFirstLink(Box firstLink) {
+		this.firstLink = firstLink;
+	}
+	
 }
 
 

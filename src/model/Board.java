@@ -49,22 +49,7 @@ public class Board {
 		}
 		current1.setNext(firstLink);
 		firstLink.setPrevious(current1);
-		
-		if(portals!=0) {
-		int contPortals=0;
-		do {
-			box.createPortal(size, current1, portals);
-			contPortals++;
-			}while(portals>=contPortals);
-		}
-		
-		int contSeeds=0;
-		do {
-			box.sortSeeds(size, current1, seeds);
-			contSeeds++;
-		}while(seeds>=contSeeds);
 	}
-	
 	
 	
 }

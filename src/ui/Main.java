@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import model.BoardManager;
+import model.Box;
 
 public class Main {
 
@@ -59,19 +60,43 @@ public class Main {
 		System.out.println("Please type the username for player 1 (Rick)\n");
 		String rick = br.readLine();
 			
-		System.out.println("Please type de username for player 2 (Morty)\n");
+		System.out.println("Please type the username for player 2 (Morty)\n");
 		String morty=br.readLine();
 		
 		manager.organizeGame(size, seedsAmount, portalsAmount, rick, morty);
+		System.out.println(createBoardView(columns, rows, manager));
 		}while(validation==true);
 		
-		
-		
-		
-			
-			
-			
-		
+
 	}
+	
+	public static  String createBoardView(int columns, int rows, BoardManager manager) {
+		String boardView="";
+		boolean isPar=false;
+		Box current=manager.getFirstLink();
+		for(int i=0; i<rows*columns;i++) {
+			
+			if(current.getID()%rows==0&&isPar==false) {
+				boardView+=current.getID()+"\n";
+				isPar=true;
+				
+			} else if(current.getID()%rows!=0&&isPar==false) {
+				boardView+=current.getID()+" ";
+				
+			} else {
+				Box temp=current;
+				while(temp.getID()%rows!=0) {
+					boardView+=temp.getID()+" ";
+					temp=temp.getPrevious();
+				}
+				boardView+="\n";
+				isPar=false;
+			}
+			current=current.getNext();
+		}
+		return boardView;
+	}
+	
+	
 
 }
