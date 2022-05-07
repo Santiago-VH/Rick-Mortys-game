@@ -63,9 +63,14 @@ public class Main {
 		System.out.println("Please type the username for player 2 (Morty)\n");
 		String morty=br.readLine();
 		
+
 		manager.organizeGame(size, seedsAmount, portalsAmount, rick, morty);
+		
+		System.out.println("pasó por el metodo");
 		System.out.println(createBoardView(columns, rows, manager));
-		}while(validation==true);
+		
+		
+		}while(validation);
 		
 
 	}
@@ -76,23 +81,25 @@ public class Main {
 		Box current=manager.getFirstLink();
 		for(int i=0; i<rows*columns;i++) {
 			
-			if(current.getID()%rows==0&&isPar==false) {
+			if(current.getID()%columns==0&&!isPar) {
 				boardView+=current.getID()+"\n";
 				isPar=true;
 				
-			} else if(current.getID()%rows!=0&&isPar==false) {
+			} else if(current.getID()%columns!=0&&!isPar) {
 				boardView+=current.getID()+" ";
 				
-			} else {
+			} else if(current.getID()%columns==0&&isPar){
+				
 				Box temp=current;
-				while(temp.getID()%rows!=0) {
+				do {
 					boardView+=temp.getID()+" ";
 					temp=temp.getPrevious();
-				}
+				} while(temp.getID()%columns!=0);
 				boardView+="\n";
 				isPar=false;
 			}
 			current=current.getNext();
+			
 		}
 		return boardView;
 	}

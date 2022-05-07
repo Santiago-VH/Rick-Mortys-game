@@ -1,7 +1,6 @@
 package model;
 
 public class Box {
-	Box firstLink;
 	private Box next;
 	private Box previous;
 	private Box portal;
@@ -86,10 +85,11 @@ public class Box {
 	}
 
 	////////////////////////////////////PORTAL METHODS/////////////////////////////////////////////////////
-	public void createPortal(int size, Box current1, int portalAmount) {
+	public void createPortal(int size, Box firstLink, int portalAmount) {
 		
 		int id1;
 		int id2;
+		Box current1=firstLink;
 		do {
 			id1 = (int)(Math.random() * (size) + 1);
 		}while(searchPortal(id1, size, current1));
@@ -99,7 +99,6 @@ public class Box {
 		}while(id1==id2||searchPortal(id2, size, current1));
 			
 		Box aux1=null;
-		current1=firstLink;
 		boolean stop=false;
 		for(int i=0;i<size&&stop==false;i++) {
 			if(current1.getID()==id1) {
@@ -128,18 +127,13 @@ public class Box {
 	
 	
 	public boolean searchPortal(int id1, int size, Box current) {
-		current=firstLink;
 		for(int i=0;i<size;i++) {
 			if(current.getID()==id1) {
-				if(current.hasPortal() == false)
-					return false;
-				else {
-					return true;
+				return current.hasPortal();
 				}
-			}
 			current=current.getNext();
 		}
-		return true;
+		return false;
 	}
 	
 	
@@ -152,7 +146,6 @@ public class Box {
 		}while(searchSeeds(id, size, current));
 		
 		boolean stop=false;
-		current=firstLink;
 		for(int i=0;i<size&&stop==false;i++) {
 			if(current.getID()==id) {
 				current.setSeed(true);
@@ -164,7 +157,6 @@ public class Box {
 	}
 	
 	public boolean searchSeeds(int id, int size, Box current) {
-		current=firstLink;
 		for(int i=0;i<size;i++) {
 			if(current.getID()==id) {
 				if(current.isSeed()==false) {
@@ -194,7 +186,6 @@ public class Box {
 		}while(mortyPosition==rickPosition||searchPortal(size, portals, current));
 		
 		boolean stop=false;
-		current=firstLink;
 		for(int i=0;i<size&&stop==false;i++) {
 			
 			if(current.getID()==mortyPosition) {
