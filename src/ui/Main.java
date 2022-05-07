@@ -55,9 +55,19 @@ public class Main {
 				System.out.println("As said before, the portals can't be larger than half of the board's complete size, restart the game\n");
 				validation=false;
 			}
+			
+		System.out.println("Please type the username for player 1 (Rick)\n");
+		String rick = br.readLine();
+			
+		System.out.println("Please type de username for player 2 (Morty)\n");
+		String morty=br.readLine();
 		
-		manager.createBoxes(size, seedsAmount, portalsAmount);
+		manager.organizeGame(size, seedsAmount, portalsAmount, rick, morty);
 		}while(validation==true);
+		
+		
+		
+		
 			
 			
 			

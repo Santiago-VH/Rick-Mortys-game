@@ -1,12 +1,13 @@
 package model;
 
 public class Box {
+	Box firstLink;
 	private Box next;
 	private Box previous;
 	private Box portal;
 	private int ID;
-	private boolean seed;
-	private boolean isPortal;
+	private boolean hasSeed;
+	private boolean hasPortal;
 	private boolean isMorty;
 	private boolean isRick;
 	
@@ -36,11 +37,11 @@ public class Box {
 	}
 
 	public boolean isSeed() {
-		return seed;
+		return hasSeed;
 	}
 
-	public void setSeed(boolean seed) {
-		this.seed = seed;
+	public void setSeed(boolean hasSeed) {
+		this.hasSeed = hasSeed;
 	}
 
 	public Box getPortal() {
@@ -59,15 +60,120 @@ public class Box {
 		ID = iD;
 	}
 
-	public boolean IsPortal() {
-		return isPortal;
+	public boolean hasPortal() {
+		return hasPortal;
 	}
 
-	public void setPortal(boolean isPortal) {
-		this.isPortal = isPortal;
+	public void setHasPortal(boolean hasPortal) {
+		this.hasPortal = hasPortal;
+	}
+	
+	public void createPortal(int size, Box current1, int portalAmount) {
+		
+		int id1;
+		int id2;
+		do {
+			id1 = (int)(Math.random() * (size) + 1);
+		}while(searchPortal(id1, size, current1));
+		
+		do {
+			id2=(int)(Math.random() * (size) + 1);
+		}while(id1==id2||searchPortal(id2, size, current1));
+			
+		Box aux1=null;
+		current1=firstLink;
+		boolean stop=false;
+		for(int i=0;i<size&&stop==false;i++) {
+			if(current1.getID()==id1) {
+				current1.setPortal(current1);
+				aux1=current1;
+				stop=true;
+				aux1.setHasPortal(true);
+			}
+			current1.getNext();
+		}
+		
+		stop=false;
+		Box aux2=null;
+		Box current2=firstLink;
+		for(int i=0;i<size&&stop==false;i++) {
+			if(current2.getID()==id2) {
+				current2.setPortal(current2);
+				aux2=current2;
+				stop=true;
+			}
+			current2.getNext();
+		}
+		aux1.setPortal(aux2);
+		aux2.setPortal(aux1);
 	}
 	
 	
+	public boolean searchPortal(int id1, int size, Box current) {
+		current=firstLink;
+		for(int i=0;i<size;i++) {
+			if(current.getID()==id1) {
+				if(current.hasPortal() == false)
+					return false;
+				else {
+					return true;
+				}
+			}
+			current.getNext();
+		}
+		return true;
+	}
 	
+	
+	public void sortSeeds(int size, Box current, int seeds) {
+		
+		int id;
+		do {
+			id=(int)(Math.random() * (size) + 1);
+		}while(searchSeeds(id, size, current));
+		
+		boolean stop=false;
+		current=firstLink;
+		for(int i=0;i<size&&stop==false;i++) {
+			if(current.getID()==id) {
+				current.setSeed(true);
+				stop=true;
+			}
+			current.getNext();
+		}
+		
+	}
+	
+	public boolean searchSeeds(int id, int size, Box current) {
+		current=firstLink;
+		for(int i=0;i<size;i++) {
+			if(current.getID()==id) {
+				if(current.isSeed()==false) {
+					return false;
+				}else {
+					return true;
+				}
+			}
+			current.getNext();
+		}
+		return true;
+	}	
+	
+	
+	public void sortPlayers(int size, Box current, int portals) {
+		int mortyPosition;
+		int rickPosition;
+		
+		do {
+		mortyPosition=(int)(Math.random() * (size) + 1);
+		}while(searchPortal(size, portals, current));
+		do {
+		rickPosition=(int)(Math.random() * (size) + 1);	
+		}while(mortyPosition==rickPosition||searchPortal(size, portals, current));
+		
+		
+		
+		
+	}
 	
 }
