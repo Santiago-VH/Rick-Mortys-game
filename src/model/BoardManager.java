@@ -17,7 +17,7 @@ public class BoardManager {
 		if (portals != 0) {
 			int contPortals = 1;
 			do {
-				box.createPortal(size, current1, portals);
+				box.createPortal(size, current1, portals, contPortals-1);
 				contPortals++;
 			} while (portals >= contPortals);
 		}

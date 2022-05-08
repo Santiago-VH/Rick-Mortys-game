@@ -94,12 +94,12 @@ public class Box {
 		this.letter = letter;
 	}
 
-	//////////////////////////////////// PORTAL
-	//////////////////////////////////// METHODS/////////////////////////////////////////////////////
-	public void createPortal(int size, Box firstLink, int portalAmount) {
+	//////////////////////////////////// PORTAL METHODS/////////////////////////////////////////////////////
+	public void createPortal(int size, Box firstLink, int portalAmount, int contPortals) {
 
 		int id1;
 		int id2;
+		String symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		Box current1 = firstLink;
 		do {
 			id1 = (int) (Math.random() * (size) + 1);
@@ -114,6 +114,7 @@ public class Box {
 		for (int i = 0; i < size && stop == false; i++) {
 			if (current1.getID() == id1) {
 				current1.setPortal(current1);
+				
 				aux1 = current1;
 				stop = true;
 				aux1.setHasPortal(true);
@@ -133,7 +134,9 @@ public class Box {
 			current2 = current2.getNext();
 		}
 		aux1.setPortal(aux2);
+		aux1.setLetter(String.valueOf(symbols.charAt(contPortals)));
 		aux2.setPortal(aux1);
+		aux2.setLetter(String.valueOf(symbols.charAt(contPortals)));
 	}
 
 	public boolean searchPortal(int id1, int size, Box current) {

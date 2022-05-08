@@ -79,7 +79,7 @@ public class Main {
 				System.out.println("Please select one of the 4 options, try again!");
 				option = Integer.parseInt(br.readLine());
 			}
-			
+
 			do {
 				switchMenu(option, mortySeedsCounter, rickSeedsCounter, rows, columns, manager);
 				option = Integer.parseInt(br.readLine());
@@ -96,13 +96,24 @@ public class Main {
 			}
 
 			Box position = null;
+			Box hola;
+
+			if (isMortyMoving) {
+				hola = manager.getFirstLink().searchMorty(size);
+				hola.setMorty(false);
+			} else {
+				hola = manager.getFirstLink().searchRick(size);
+				hola.setRick(false);
+			}
+			
+			
 			switch (option) {
 			case 1:
-				position = turnAdvance(diceValue, manager.getFirstLink().searchRick(size), isMortyMoving);
+				position = turnAdvance(diceValue, hola, isMortyMoving);
 
 				break;
 			case 2:
-				position = turnBack(diceValue, manager.getFirstLink().searchRick(size), isMortyMoving);
+				position = turnBack(diceValue, hola, isMortyMoving);
 				break;
 			}
 
@@ -110,8 +121,26 @@ public class Main {
 			mortySeedsCounter = counters[0];
 			rickSeedsCounter = counters[1];
 
+			if (isMortyMoving) {
+				isMortyMoving = false;
+			} else {
+				isMortyMoving = true;
+			}
 		} while (seedsAmount != (mortySeedsCounter + rickSeedsCounter));
 
+		String winner="";
+		int winnerCounter;
+		if(mortySeedsCounter>rickSeedsCounter) {
+			winner="Morty";
+			winnerCounter=mortySeedsCounter;
+		}else if(mortySeedsCounter<rickSeedsCounter) {
+			winner="rick";
+			winnerCounter=rickSeedsCounter;
+		}else {
+			winner="both";
+			winnerCounter=rickSeedsCounter;
+		}
+		System.out.println("The player "+winner+" has won the game with a score of "+winnerCounter);
 	}
 
 	public static Box turnAdvance(int diceValue, Box current, boolean mortyIsMoving) {
@@ -175,7 +204,6 @@ public class Main {
 	public static void switchMenu(int option, int mortySeedsCounter, int rickSeedsCounter, int columns, int rows,
 			BoardManager manager) {
 
-		
 		switch (option) {
 
 		case 1:
@@ -195,7 +223,7 @@ public class Main {
 			break;
 		}
 	}
-	
+
 	public static String seePortals(int columns, int rows, BoardManager manager) {
 		String boardView = "";
 		boolean isPar = false;
@@ -204,29 +232,29 @@ public class Main {
 
 			if (current.getID() % columns == 0 && !isPar) {
 				if (current.hasPortal()) {
-					boardView += "["+current.getPortal().getID()+"]  " + "\n";
+					boardView += "[" + current.getLetter() + "]  " + "\n";
 				} else if (current.isRick() && current.isMorty()) {
-					boardView += "[R&M]  " + "\n";
+					boardView += "[]  " + "\n";
 				} else if (current.isMorty()) {
-					boardView += "[M]  " + "\n";
+					boardView += "[]  " + "\n";
 				} else if (current.isRick()) {
-					boardView += "[R]  " + "\n";
+					boardView += "[]  " + "\n";
 				} else {
-					boardView += "["+current.getID() + "] \n";
+					boardView += "[" + current.getLetter() + "] \n";
 				}
 				isPar = true;
 
 			} else if (current.getID() % columns != 0 && !isPar) {
 				if (current.isSeed()) {
-					boardView += "["+current.getPortal().getID()+"]  ";
+					boardView += "[" + current.getLetter() + "]  ";
 				} else if (current.isRick() && current.isMorty()) {
-					boardView += "[R&M]  ";
+					boardView += "[]  ";
 				} else if (current.isMorty()) {
-					boardView += "[M]  ";
+					boardView += "[]  ";
 				} else if (current.isRick()) {
-					boardView += "[R] ";
+					boardView += "[] ";
 				} else {
-					boardView += "["+current.getID()+"]  ";
+					boardView += "[" + current.getLetter() + "]  ";
 				}
 
 			} else if (current.getID() % columns == 0 && isPar) {
@@ -235,15 +263,15 @@ public class Main {
 				do {
 
 					if (temp.isSeed()) {
-						boardView += "["+current.getPortal().getID()+"]  ";
+						boardView += "[" + current.getLetter() + "]  ";
 					} else if (temp.isRick() && temp.isMorty()) {
-						boardView += "[R&M]  ";
+						boardView += "[]  ";
 					} else if (temp.isMorty()) {
-						boardView += "[M]  ";
+						boardView += "[]  ";
 					} else if (temp.isRick()) {
-						boardView += "[R]  ";
+						boardView += "[]  ";
 					} else {
-						boardView += "["+temp.getID()+"]  ";
+						boardView += "[" + temp.getLetter() + "]  ";
 					}
 					temp = temp.getPrevious();
 
@@ -256,7 +284,6 @@ public class Main {
 		}
 		return boardView;
 	}
-	
 
 	public static String seeStandardBoard(int columns, int rows, BoardManager manager) {
 		String boardView = "";
@@ -274,7 +301,7 @@ public class Main {
 				} else if (current.isRick()) {
 					boardView += "[R]  " + "\n";
 				} else {
-					boardView += "["+current.getID() + "] \n";
+					boardView += "[" + current.getID() + "] \n";
 				}
 				isPar = true;
 
@@ -288,7 +315,7 @@ public class Main {
 				} else if (current.isRick()) {
 					boardView += "[R] ";
 				} else {
-					boardView += "["+current.getID()+"]  ";
+					boardView += "[" + current.getID() + "]  ";
 				}
 
 			} else if (current.getID() % columns == 0 && isPar) {
@@ -305,7 +332,7 @@ public class Main {
 					} else if (temp.isRick()) {
 						boardView += "[R]  ";
 					} else {
-						boardView += "["+temp.getID()+"]  ";
+						boardView += "[" + temp.getID() + "]  ";
 					}
 					temp = temp.getPrevious();
 
@@ -319,9 +346,6 @@ public class Main {
 		return boardView;
 	}
 
-	
-	
-	
 	public static int throwDice() {
 		int diceValue = (int) (Math.random() * (6) + 1);
 		return diceValue;
