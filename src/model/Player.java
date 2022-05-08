@@ -4,10 +4,10 @@ public class Player {
 
 	private String username;
 	private int score;
-	
+
 	public Player(String username, int score) {
-		this.username=username;
-		this.score=score;
+		this.username = username;
+		this.score = score;
 	}
 
 	public String getUsername() {
@@ -25,5 +25,5 @@ public class Player {
 	public void setScore(int score) {
 		this.score = score;
 	}
-	
+
 }

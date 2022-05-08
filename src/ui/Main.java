@@ -6,14 +6,12 @@ import java.io.InputStreamReader;
 
 import model.BoardManager;
 import model.Box;
-import model.Board;
 
 public class Main {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 
 		BoardManager manager = new BoardManager();
-		Board board = new Board(0, 0, 0, 0);
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		System.out.println("Welcome to Rick & Morty's adventure! Please digit the number of columns\n");
@@ -81,9 +79,10 @@ public class Main {
 				System.out.println("Please select one of the 4 options, try again!");
 				option = Integer.parseInt(br.readLine());
 			}
-
+			
 			do {
-				switchMenu(option);
+				switchMenu(option, mortySeedsCounter, rickSeedsCounter, rows, columns, manager);
+				option = Integer.parseInt(br.readLine());
 			} while (option != 1);
 
 			int diceValue = throwDice();
@@ -112,8 +111,6 @@ public class Main {
 			rickSeedsCounter = counters[1];
 
 		} while (seedsAmount != (mortySeedsCounter + rickSeedsCounter));
-
-		// System.out.println(createStandardBoardView(columns, rows, manager));
 
 	}
 
@@ -175,25 +172,91 @@ public class Main {
 		return counters;
 	}
 
-	public static void switchMenu(int option) {
+	public static void switchMenu(int option, int mortySeedsCounter, int rickSeedsCounter, int columns, int rows,
+			BoardManager manager) {
 
+		
 		switch (option) {
 
 		case 1:
 			throwDice();
 			break;
 
-		case 2: // seeStandardBoard();
+		case 2:
+			System.out.println(seeStandardBoard(columns, rows, manager));
 			break;
 
-		case 3: // seePortals();
+		case 3:
+			System.out.println(seePortals(columns, rows, manager));
 			break;
 
-		case 4: // seeLeaderboard();
+		case 4:
+			System.out.println(seeLeaderboard(mortySeedsCounter, rickSeedsCounter));
 			break;
-
 		}
 	}
+	
+	public static String seePortals(int columns, int rows, BoardManager manager) {
+		String boardView = "";
+		boolean isPar = false;
+		Box current = manager.getFirstLink();
+		for (int i = 0; i < rows * columns; i++) {
+
+			if (current.getID() % columns == 0 && !isPar) {
+				if (current.hasPortal()) {
+					boardView += "["+current.getPortal().getID()+"]  " + "\n";
+				} else if (current.isRick() && current.isMorty()) {
+					boardView += "[R&M]  " + "\n";
+				} else if (current.isMorty()) {
+					boardView += "[M]  " + "\n";
+				} else if (current.isRick()) {
+					boardView += "[R]  " + "\n";
+				} else {
+					boardView += "["+current.getID() + "] \n";
+				}
+				isPar = true;
+
+			} else if (current.getID() % columns != 0 && !isPar) {
+				if (current.isSeed()) {
+					boardView += "["+current.getPortal().getID()+"]  ";
+				} else if (current.isRick() && current.isMorty()) {
+					boardView += "[R&M]  ";
+				} else if (current.isMorty()) {
+					boardView += "[M]  ";
+				} else if (current.isRick()) {
+					boardView += "[R] ";
+				} else {
+					boardView += "["+current.getID()+"]  ";
+				}
+
+			} else if (current.getID() % columns == 0 && isPar) {
+
+				Box temp = current;
+				do {
+
+					if (temp.isSeed()) {
+						boardView += "["+current.getPortal().getID()+"]  ";
+					} else if (temp.isRick() && temp.isMorty()) {
+						boardView += "[R&M]  ";
+					} else if (temp.isMorty()) {
+						boardView += "[M]  ";
+					} else if (temp.isRick()) {
+						boardView += "[R]  ";
+					} else {
+						boardView += "["+temp.getID()+"]  ";
+					}
+					temp = temp.getPrevious();
+
+				} while (temp.getID() % columns != 0);
+				boardView += "\n";
+				isPar = false;
+			}
+			current = current.getNext();
+
+		}
+		return boardView;
+	}
+	
 
 	public static String seeStandardBoard(int columns, int rows, BoardManager manager) {
 		String boardView = "";
@@ -202,18 +265,50 @@ public class Main {
 		for (int i = 0; i < rows * columns; i++) {
 
 			if (current.getID() % columns == 0 && !isPar) {
-				boardView += "[" + current.getID() + "]" + "\n";
+				if (current.isSeed()) {
+					boardView += "[*]  " + "\n";
+				} else if (current.isRick() && current.isMorty()) {
+					boardView += "[R&M]  " + "\n";
+				} else if (current.isMorty()) {
+					boardView += "[M]  " + "\n";
+				} else if (current.isRick()) {
+					boardView += "[R]  " + "\n";
+				} else {
+					boardView += "["+current.getID() + "] \n";
+				}
 				isPar = true;
 
 			} else if (current.getID() % columns != 0 && !isPar) {
-				boardView += "[" + current.getID() + "] ";
+				if (current.isSeed()) {
+					boardView += "[*]  ";
+				} else if (current.isRick() && current.isMorty()) {
+					boardView += "[R&M]  ";
+				} else if (current.isMorty()) {
+					boardView += "[M]  ";
+				} else if (current.isRick()) {
+					boardView += "[R] ";
+				} else {
+					boardView += "["+current.getID()+"]  ";
+				}
 
 			} else if (current.getID() % columns == 0 && isPar) {
 
 				Box temp = current;
 				do {
-					boardView += "[" + temp.getID() + "] ";
+
+					if (temp.isSeed()) {
+						boardView += "[*]  ";
+					} else if (temp.isRick() && temp.isMorty()) {
+						boardView += "[R&M]  ";
+					} else if (temp.isMorty()) {
+						boardView += "[M]  ";
+					} else if (temp.isRick()) {
+						boardView += "[R]  ";
+					} else {
+						boardView += "["+temp.getID()+"]  ";
+					}
 					temp = temp.getPrevious();
+
 				} while (temp.getID() % columns != 0);
 				boardView += "\n";
 				isPar = false;
@@ -224,9 +319,18 @@ public class Main {
 		return boardView;
 	}
 
+	
+	
+	
 	public static int throwDice() {
 		int diceValue = (int) (Math.random() * (6) + 1);
 		return diceValue;
+
+	}
+
+	public static String seeLeaderboard(int mortyCounter, int rickCounter) {
+		String leaderboard = "Rick: " + rickCounter + " semillas\n" + "Morty: " + mortyCounter + " semillas";
+		return leaderboard;
 
 	}
 
