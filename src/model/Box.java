@@ -198,12 +198,29 @@ public class Box {
 				stop=true;
 			}
 			current=current.getNext();
-		}		
+		}
 	}
 	
-	public boolean searchPlayer(int mortyPosition, int rickPosition, int size, Box current) {
-		//TODO
-		return true;
+	public Box searchMorty(int size) {
+		Box current=this;
+		for(int i=0;i<size;i++) {
+			if (current.isMorty()==true) {
+				return current;
+			} 
+			current=current.getNext();
+		}
+		return null;
+	}
+	
+	public Box searchRick(int size) {
+		Box current=this;
+		for(int i=0;i<size;i++) {
+			if (current.isRick()==true) {
+				return current;
+			} 
+			current=current.getNext();
+		}
+		return null;
 	}
 	
 }
